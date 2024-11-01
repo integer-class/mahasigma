@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
@@ -50,10 +50,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // List of widgets for each page
   final List<Widget> _pages = [
-    Center(child: Text('Home Page')),
-    Center(child: Text('Activity Page')),
-    Center(child: Text('Analytics Page')),
-    Center(child: Text('Profile Page')),
+    HomePage(),
+    Center(
+      child: Text("History"),
+    ),
+    Center(
+      child: Text("Analyst"),
+    ),
+    Center(
+      child: Text("Profile"),
+    ),
   ];
 
   void _onItemTapped(int index) {
@@ -65,47 +71,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomePage(),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         color: Colors.green[100], // Set background color
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: '', // Empty label for Home
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.access_time),
-              label: '', // Empty label for Activity
-            ),
-            BottomNavigationBarItem(
-              icon: SizedBox.shrink(), // Empty space for center button
               label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.show_chart),
-              label: '', // Empty label for Analytics
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: '', // Empty label for Profile
+              label: '',
             ),
           ],
-          currentIndex: _selectedIndex, // Current selected index
-          selectedItemColor: Colors.black, // Color of the selected item
-          unselectedItemColor: Colors.grey, // Color of the unselected items
-          onTap: _onItemTapped, // Function called when an item is tapped
-          type: BottomNavigationBarType.fixed, // For fixed layout
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.black,
+          backgroundColor: const Color(0xFFC8F3CC),
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Action for the center button
-        },
-        backgroundColor: Colors.green, // Set button color
-        child: const Icon(Icons.face), // Center button icon
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

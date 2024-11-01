@@ -25,7 +25,7 @@ class Cardmenu extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 13),
               ),
             ),
           ],
