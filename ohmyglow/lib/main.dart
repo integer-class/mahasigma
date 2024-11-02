@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/pages/home.dart';
+import 'package:camera/camera.dart';
 
-void main() {
+late List<CameraDescription> _cameras;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the cameras and handle any errors that may occur.
+  try {
+    _cameras = await availableCameras();
+  } catch (e) {
+    print('Error initializing cameras: $e');
+  }
+
   runApp(const MyApp());
 }
 

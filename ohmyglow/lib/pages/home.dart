@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/models/item.dart';
+import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
 
@@ -46,7 +47,12 @@ class _HomePageState extends State<HomePage> {
                                 16.0), // Set your desired radius
                           ),
                           padding: const EdgeInsets.fromLTRB(10, 15, 10, 15)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CameraPage()),
+                        );
+                      },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
