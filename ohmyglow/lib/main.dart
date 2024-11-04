@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/pages/home.dart';
 import 'package:camera/camera.dart';
+import 'package:ohmyglow/pages/login.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -45,7 +46,81 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  AnimationController? _scaleController;
+  Animation<double>? _scaleAnimation;
+
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize scale animation
+    _scaleController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    _scaleAnimation = CurvedAnimation(
+      parent: _scaleController!,
+      curve: Curves.easeInOutCubicEmphasized,
+    );
+
+    // Initialize slide animation
+
+    // Start the slide up transition after a delay
+    Future.delayed(Duration(seconds: 3), () {
+      // _scaleController?.stop();
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MyHomePage()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scaleController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFE9E0FC), Color(0xFFFFFFFF)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: ScaleTransition(
+            scale: _scaleAnimation!,
+            child: Image.asset("images/logoSplash.png", width: 130),
+          ),
+        ),
+      ),
     );
   }
 }
