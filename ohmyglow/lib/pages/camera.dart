@@ -25,7 +25,8 @@ class _CameraPageState extends State<CameraPage> {
     _cameras = await availableCameras();
     _cameraController = CameraController(
       _cameras.first,
-      ResolutionPreset.max,
+      ResolutionPreset.veryHigh,
+      enableAudio: false,
     );
     await _cameraController!.initialize();
     if (mounted) {
@@ -77,55 +78,62 @@ class _CameraPageState extends State<CameraPage> {
     }
 
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          CameraPreview(_cameraController!),
-          Positioned.fill(
-            child: Container(
-              color: Colors.black.withOpacity(0.4),
-            ),
-          ),
-          Positioned.fill(
-            child: Center(
-              child: Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.purpleAccent, width: 3),
-                  borderRadius: BorderRadius.circular(20),
+          Stack(
+            children: [
+              CameraPreview(_cameraController!),
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.4),
                 ),
               ),
-            ),
+              Positioned.fill(
+                child: Center(
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.purpleAccent, width: 3),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 20,
+                left: 10,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
           ),
-          Positioned(
-            top: 20,
-            left: 10,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          Positioned(
-            bottom: 40,
-            left: 0,
-            right: 0,
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 IconButton(
-                  icon: Icon(Icons.photo, color: Colors.white),
+                  icon: Icon(
+                    Icons.photo,
+                    color: Colors.black,
+                    size: 30,
+                  ),
                   onPressed: _pickImageFromGallery, // Open gallery
                 ),
                 IconButton(
-                  icon: Icon(Icons.camera, color: Colors.white, size: 40),
+                  icon: Icon(Icons.camera, color: Colors.black, size: 60),
                   onPressed: _capturePhoto, // Capture photo
                 ),
                 IconButton(
                   icon: Icon(
                     _isFlashOn ? Icons.flash_on : Icons.flash_off,
-                    color: Colors.white,
+                    color: Colors.black,
+                    size: 30,
                   ),
                   onPressed: _toggleFlash, // Toggle flash
                 ),
