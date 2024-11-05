@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/pages/home.dart';
 import 'package:camera/camera.dart';
+import 'package:ohmyglow/pages/history.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -63,9 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // List of widgets for each page
   final List<Widget> _pages = [
     HomePage(),
-    Center(
-      child: Text("History"),
-    ),
+    HistoryPage(),
     Center(
       child: Text("Analyst"),
     ),
@@ -116,3 +115,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
