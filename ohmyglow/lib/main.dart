@@ -4,7 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:ohmyglow/pages/history.dart';
 import 'package:ohmyglow/pages/login.dart';
 
-
 late List<CameraDescription> _cameras;
 
 Future<void> main() async {
@@ -191,4 +190,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

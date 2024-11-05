@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:ohmyglow/pages/imageDisplay.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -46,8 +47,15 @@ class _CameraPageState extends State<CameraPage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      // Do something with the selected image (e.g., display or process it)
-      print("Selected image path: ${imageFile.path}");
+      // Navigate to the ImageDisplayPage with the selected image
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ImageDisplayPage(
+            imagePath: imageFile.path,
+          ),
+        ),
+      );
     }
   }
 
@@ -55,8 +63,13 @@ class _CameraPageState extends State<CameraPage> {
   Future<void> _capturePhoto() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final image = await _cameraController!.takePicture();
-      print("Captured image path: ${image.path}");
-      // Do something with the captured image, like saving or displaying it
+      // Navigate to the ImageDisplayPage with the captured image
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ImageDisplayPage(imagePath: image.path),
+        ),
+      );
     }
   }
 
