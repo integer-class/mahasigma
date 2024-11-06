@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:ohmyglow/pages/imageDisplay.dart';
+import 'package:tflite/tflite.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -14,40 +15,37 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   CameraController? _cameraController;
   late List<CameraDescription> _cameras;
-  bool _isFlashOn = false; // Flash state
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeCamera();
-  }
+  bool _isFlashOn = false;
+  int _selectedCameraIndex = 0;
 
   Future<void> _initializeCamera() async {
     _cameras = await availableCameras();
+
+    _selectedCameraIndex = _cameras.indexWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front);
+
+    if (_selectedCameraIndex == -1) {
+      _selectedCameraIndex = 0;
+    }
+
     _cameraController = CameraController(
-      _cameras.first,
+      _cameras[_selectedCameraIndex],
       ResolutionPreset.veryHigh,
       enableAudio: false,
+      imageFormatGroup: ImageFormatGroup.jpeg,
     );
+
     await _cameraController!.initialize();
     if (mounted) {
       setState(() {});
     }
   }
 
-  @override
-  void dispose() {
-    _cameraController?.dispose();
-    super.dispose();
-  }
-
-  // Function to open the photo gallery
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      // Navigate to the ImageDisplayPage with the selected image
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -59,21 +57,32 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  // Function to capture a photo
   Future<void> _capturePhoto() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final image = await _cameraController!.takePicture();
-      // Navigate to the ImageDisplayPage with the captured image
+      List<dynamic>? recognitions = await _runObjectDetection(image.path);
+
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ImageDisplayPage(imagePath: image.path),
+          builder: (context) => ImageDisplayPage(
+            imagePath: image.path,
+            recognitions: recognitions,
+          ),
         ),
       );
     }
   }
 
-  // Function to toggle flash
+  Future<List<dynamic>?> _runObjectDetection(String imagePath) async {
+    return await Tflite.detectObjectOnImage(
+      path: imagePath,
+      model: "SSDMobileNet",
+      threshold: 0.5,
+      asynch: true,
+    );
+  }
+
   Future<void> _toggleFlash() async {
     if (_cameraController != null) {
       _isFlashOn = !_isFlashOn;
@@ -82,6 +91,42 @@ class _CameraPageState extends State<CameraPage> {
       );
       setState(() {});
     }
+  }
+
+  Future<void> _switchCamera() async {
+    _selectedCameraIndex = (_selectedCameraIndex + 1) % _cameras.length;
+
+    await _cameraController?.dispose();
+    _cameraController = CameraController(
+      _cameras[_selectedCameraIndex],
+      ResolutionPreset.veryHigh,
+      enableAudio: false,
+      imageFormatGroup: ImageFormatGroup.jpeg,
+    );
+
+    await _cameraController!.initialize();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _loadModel() async {
+    await Tflite.loadModel(
+      model: "assets/model.tflite",
+      labels: "assets/labels.txt",
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeCamera();
+  }
+
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,6 +168,17 @@ class _CameraPageState extends State<CameraPage> {
                   },
                 ),
               ),
+              Positioned(
+                top: 20,
+                right: 10,
+                child: IconButton(
+                  icon: Icon(
+                    _isFlashOn ? Icons.flash_on : Icons.flash_off,
+                    color: Colors.white,
+                  ),
+                  onPressed: _toggleFlash, // Toggle flash
+                ),
+              ),
             ],
           ),
           Padding(
@@ -144,11 +200,11 @@ class _CameraPageState extends State<CameraPage> {
                 ),
                 IconButton(
                   icon: Icon(
-                    _isFlashOn ? Icons.flash_on : Icons.flash_off,
+                    Icons.flip_camera_android,
                     color: Colors.black,
                     size: 30,
                   ),
-                  onPressed: _toggleFlash, // Toggle flash
+                  onPressed: _switchCamera, // Flip camera
                 ),
               ],
             ),

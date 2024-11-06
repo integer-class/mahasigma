@@ -3,8 +3,10 @@ import 'dart:io';
 
 class ImageDisplayPage extends StatelessWidget {
   final String imagePath;
+  final List<dynamic>? recognitions;
 
-  const ImageDisplayPage({super.key, required this.imagePath});
+  const ImageDisplayPage(
+      {super.key, required this.imagePath, this.recognitions});
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,20 @@ class ImageDisplayPage extends StatelessWidget {
                   ),
                 ),
               ),
+              if (recognitions != null)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: recognitions!.length,
+                    itemBuilder: (context, index) {
+                      var result = recognitions![index];
+                      return ListTile(
+                        title: Text("${result["label"]}"),
+                        subtitle: Text(
+                            "Confidence: ${(result["confidence"] * 100).toStringAsFixed(2)}%"),
+                      );
+                    },
+                  ),
+                ),
             ],
           ),
         ),
