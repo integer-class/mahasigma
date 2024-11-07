@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/main.dart';
+import 'package:ohmyglow/pages/register.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _isValidLogin() {
+    // Implement your login validation logic here
+    // For example, you can check if the email and password are not empty
+    return _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+  }
+  
+  bool _isPasswordVisible = false;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _isPasswordVisible = !_isPasswordVisible;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +52,7 @@ class LoginPage extends StatelessWidget {
 
               // Email field
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email_outlined),
                   hintText: 'youremail@gmail.com',
@@ -40,11 +65,15 @@ class LoginPage extends StatelessWidget {
 
               // Password field
               TextField(
-                obscureText: true,
+                controller: _passwordController,
+                obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock_outline),
                   hintText: 'Password',
-                  suffixIcon: Icon(Icons.visibility_outlined),
+                  suffixIcon: IconButton(
+                    icon: Icon(_isPasswordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                    onPressed: _togglePasswordVisibility,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -71,10 +100,20 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyHomePage()),
-                  );
+                  if (_isValidLogin()) {
+                    // Perform login logic here
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                    );
+                  } else {
+                    // Show an error message to the user
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter a valid email and password.'),
+                      ),
+                    );
+                  }
                 },
                 child: Center(
                   child: Text(
@@ -142,7 +181,10 @@ class LoginPage extends StatelessWidget {
                   Text("Don't have an account? "),
                   GestureDetector(
                     onTap: () {
-                      // Navigate to sign-up screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
                     child: Text(
                       "Sign up",

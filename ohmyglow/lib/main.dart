@@ -3,6 +3,7 @@ import 'package:ohmyglow/pages/home.dart';
 import 'package:camera/camera.dart';
 import 'package:ohmyglow/pages/history.dart';
 import 'package:ohmyglow/pages/login.dart';
+import 'package:ohmyglow/pages/profile.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -143,9 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Center(
       child: Text("Analyst"),
     ),
-    Center(
-      child: Text("Profile"),
-    ),
+    ProfilePage()
   ];
 
   void _onItemTapped(int index) {
