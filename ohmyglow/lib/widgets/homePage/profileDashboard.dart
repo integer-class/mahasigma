@@ -21,15 +21,18 @@ Widget profileDashboard = Padding(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hi!",
+                "Hi Awaa!",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                "Awaa",
-                style: TextStyle(fontSize: 13),
+                "Elevate your complextion care",
+                style: TextStyle(
+                  fontSize: 13,
+                  fontStyle: FontStyle.italic,
+                  ),
               ),
             ],
           ),
