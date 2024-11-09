@@ -24,13 +24,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   backgroundImage: AssetImage('assets/profile_image.png'),
                 ),
                 SizedBox(width: 16.0),
-                Text(
-                  'Awaa, 20 years',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Awaa",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "20 Years",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ],
                 ),
+              ),
               ],
             ),
             SizedBox(height: 24.0),
