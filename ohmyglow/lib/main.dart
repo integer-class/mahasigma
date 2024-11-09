@@ -161,26 +161,26 @@ class _MyHomePageState extends State<MyHomePage> {
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '',
+              icon: Icon(Icons.home_rounded),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              label: '',
+              icon: Icon(Icons.access_time_rounded),
+              label: 'History',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              label: '',
+              icon: Icon(Icons.show_chart_rounded),
+              label: 'Analyst',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '',
+              icon: Icon(Icons.person_rounded),
+              label: 'Profile',
             ),
           ],
           currentIndex: _selectedIndex,
           unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.black,
-          backgroundColor: const Color(0xFFC8F3CC),
+          selectedItemColor: Colors.deepPurple,
+          backgroundColor: Colors.white,
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
         ),
