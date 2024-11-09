@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ohmyglow/pages/Analyst.dart';
 import 'package:ohmyglow/pages/home.dart';
 import 'package:camera/camera.dart';
 import 'package:ohmyglow/pages/history.dart';
@@ -141,9 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
     HomePage(),
     HistoryPage(),
-    Center(
-      child: Text("Analyst"),
-    ),
+    AnalystPage(),
     ProfilePage()
   ];
 
@@ -158,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
-        color: Colors.green[100], // Set background color
+        color: Colors.white, // Set background color
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
