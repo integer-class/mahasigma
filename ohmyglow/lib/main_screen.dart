@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:ohmyglow/pages/Analyst.dart';
 import 'package:ohmyglow/pages/history.dart';
 import 'package:ohmyglow/pages/home.dart';
@@ -37,25 +38,33 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey[600],
+        selectedItemColor: Color(0xFF9747FF),
         backgroundColor: Colors.white,
         onTap: _onItemTapped, // Set background color
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded),
+              icon: ImageIcon(
+                AssetImage('assets/Icons/home.png')
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.access_time_rounded),
+              icon: ImageIcon(
+                AssetImage('assets/Icons/clock.png')
+              ),
               label: 'History',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart_rounded),
+              icon: ImageIcon(
+                AssetImage('assets/Icons/diagram.png')
+              ),
               label: 'Analyst',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded),
+              icon: ImageIcon(
+                AssetImage('assets/Icons/user.png')
+              ),
               label: 'Profile',
             ),
           ],

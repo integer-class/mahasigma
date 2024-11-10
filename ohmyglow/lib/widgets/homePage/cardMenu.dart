@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/theme.dart';
 
 class Cardmenu extends StatelessWidget {
   final String image;
@@ -14,7 +15,7 @@ class Cardmenu extends StatelessWidget {
         elevation: 4,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        color: const Color(0xFFEFFFF0),
+        color: const Color(0xFFDDF7DF),
         child: Column(
           children: [
             Image.asset(
@@ -25,7 +26,7 @@ class Cardmenu extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 13),
+                style: regularTS.copyWith(fontSize: 13, color: Colors.black,),
               ),
             ),
           ],

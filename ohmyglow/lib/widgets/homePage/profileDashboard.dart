@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/theme.dart';
 
 Widget profileDashboard = Padding(
   padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
@@ -15,24 +16,18 @@ Widget profileDashboard = Padding(
             fit: BoxFit.cover,
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Hi Awaa!",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: boldTS.copyWith(fontSize: 16, color: Colors.black,),
               ),
               Text(
                 "Elevate your complextion care",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontStyle: FontStyle.italic,
-                  ),
+                style: mediumItalicTS.copyWith(fontSize: 13, color: Colors.black)
               ),
             ],
           ),

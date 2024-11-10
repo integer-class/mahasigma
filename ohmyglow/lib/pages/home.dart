@@ -3,6 +3,7 @@ import 'package:ohmyglow/models/item.dart';
 import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
+import '../config/theme.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -23,61 +24,60 @@ class _HomePageState extends State<HomePage> {
     return ListView(
         children: [
           Container(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-              padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-              child: profileDashboard),
-              
-          Card(
-            color: Colors.white,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(70),
-                topRight: Radius.circular(70),
-              ),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: profileDashboard,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
               child: Column(
                 children: [
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFC8F3CC),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                16.0), // Set your desired radius
-                          ),
-                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 15)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CameraPage()),
-                        );
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image(
-                              image: AssetImage("images/logo-face-button.png")),
-                          Text(
-                            "Use AI to scan your face",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Icon(
-                            Icons.navigate_next_sharp,
-                            color: Colors.black,
-                          )
-                        ],
-                      )),
-                  const Padding(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFC8F3CC),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0), // Set your desired radius
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CameraPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                            image: AssetImage("images/logo-face-button.png"),
+                            width: 30,
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          "Use AI to scan your face",
+                          style: regularTS.copyWith(fontSize: 17, color: Colors.black),
+                        ),
+                        const SizedBox(width: 17,),
+                        ImageIcon(
+                          AssetImage('assets/Icons/arrow-right.png',),
+                          color: Colors.black,
+                          size: 20,
+                        )
+                      ],
+                    )),
+                  Padding(
                     padding: EdgeInsets.fromLTRB(0, 35, 0, 15),
                     child: Row(
                       children: [
                         Text(
                           "Skin Type",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: semiBoldTS.copyWith(fontSize: 20, color: Colors.black),
                           textAlign: TextAlign.start,
                         ),
                       ],
@@ -99,16 +99,13 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.fromLTRB(0, 35, 0, 15),
                     child: Row(
                       children: [
                         Text(
                           "Skin Problem",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: semiBoldTS.copyWith(fontSize: 20, color: Colors.black),
                           textAlign: TextAlign.start,
                         ),
                       ],
@@ -133,8 +130,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-          )
-
+          ),
           // ListView.builder(
           //   itemCount: widget.items.length,
           //   scrollDirection: Axis.horizontal,
@@ -143,6 +139,7 @@ class _HomePageState extends State<HomePage> {
           //     return Cardmenu(image: item.image, title: item.title);
           //   },
           // )
+          
         ],
     );
   }

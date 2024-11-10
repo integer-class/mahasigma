@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../config/theme.dart';
 class AnalystPage extends StatelessWidget {
   const AnalystPage({super.key});
 
@@ -12,9 +12,12 @@ class AnalystPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back),
+          icon: ImageIcon(AssetImage('assets/Icons/arrow-left.png')),
         ),
-        title: const Text("Graph Analysis"),
+        title: Text(
+          "Graph Analysis",
+          style: semiBoldTS.copyWith(fontSize: 16, color: Colors.black,),
+          ),
       ),
     );
   }

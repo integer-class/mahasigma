@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/theme.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -11,10 +12,13 @@ class HistoryPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.arrow_back),
+          icon: ImageIcon(AssetImage('assets/Icons/arrow-left.png')),
         ),
         backgroundColor: Colors.transparent,
-        title: const Text("History Analysis"),
+        title: Text(
+          "History Analysis",
+          style: semiBoldTS.copyWith(fontSize: 16, color: Colors.black,),
+          ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -68,16 +72,15 @@ class _HistoryCard extends StatelessWidget {
           children: [
             Text(
               date,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+              style:mediumTS.copyWith(fontSize: 16, color: Colors.black,),
             ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               children: conditions.map((condition) => Chip(
-                label: Text(condition),
+                label: Text(
+                  condition,
+                  style: semiBoldTS,),
                 backgroundColor: _getColorForCondition(condition),
               )).toList(),
             ),

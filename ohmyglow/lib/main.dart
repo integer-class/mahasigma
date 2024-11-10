@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         colorSchemeSeed: Color(0xFFF8F8F8), //colorScheme bukan deepPurple tp #F8F8F8!!!
         useMaterial3: true,
+        fontFamily: 'Inter'
       ),
       home: SplashScreen(),
     );
