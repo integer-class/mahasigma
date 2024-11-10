@@ -3,6 +3,8 @@ import 'package:ohmyglow/main.dart';
 import 'package:ohmyglow/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }

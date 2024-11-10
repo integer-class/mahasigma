@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/main.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }

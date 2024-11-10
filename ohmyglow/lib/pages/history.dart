@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +47,10 @@ class HistoryPage extends StatelessWidget {
 
 class _HistoryCard extends StatelessWidget {
   const _HistoryCard({
-    Key? key,
+    super.key,
     required this.date,
     required this.conditions,
-  }) : super(key: key);
+  });
 
   final String date;
   final List<String> conditions;

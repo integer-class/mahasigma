@@ -46,53 +46,53 @@ Widget profileDashboard = Padding(
               size: 35,
             )),
       ]),
-      const Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Row(
-          children: [
-            Text(
-              "30°",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-              child: Icon(
-                Icons.sunny,
-                color: Colors.yellow,
-              ),
-            ),
-            Text(
-              "Sunny | Humadity: 70% | UV: 8",
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            ),
-            // Padding(
-            //     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            //     child: Text("|",
-            //         style: TextStyle(
-            //             fontSize: 15, fontWeight: FontWeight.bold))),
-            // Text(
-            //   "Humidity: 70%",
-            //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            // ),
-            // Padding(
-            //     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            //     child: Text("|",
-            //         style: TextStyle(
-            //             fontSize: 15, fontWeight: FontWeight.bold))),
-            // Text(
-            //   "UV: 8",
-            //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            // ),
-          ],
-        ),
-      ),
-      const Padding(
-        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Text(
-          "High temperatures today, don't forget to use sunscreen!",
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-        ),
-      ),
+      // const Padding(
+      //   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+      //   child: Row(
+      //     children: [
+      //       Text(
+      //         "30°",
+      //         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      //       ),
+      //       Padding(
+      //         padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+      //         child: Icon(
+      //           Icons.sunny,
+      //           color: Colors.yellow,
+      //         ),
+      //       ),
+      //       Text(
+      //         "Sunny | Humadity: 70% | UV: 8",
+      //         style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      //       ),
+      //       // Padding(
+      //       //     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      //       //     child: Text("|",
+      //       //         style: TextStyle(
+      //       //             fontSize: 15, fontWeight: FontWeight.bold))),
+      //       // Text(
+      //       //   "Humidity: 70%",
+      //       //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      //       // ),
+      //       // Padding(
+      //       //     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      //       //     child: Text("|",
+      //       //         style: TextStyle(
+      //       //             fontSize: 15, fontWeight: FontWeight.bold))),
+      //       // Text(
+      //       //   "UV: 8",
+      //       //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
+      // const Padding(
+      //   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+      //   child: Text(
+      //     "High temperatures today, don't forget to use sunscreen!",
+      //     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
     ],
   ),
 );
