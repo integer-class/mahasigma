@@ -6,7 +6,6 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -14,6 +13,7 @@ class HistoryPage extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back),
         ),
+        backgroundColor: Colors.transparent,
         title: const Text("History Analysis"),
       ),
       body: ListView(
@@ -59,6 +59,7 @@ class _HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
+      color: Colors.white,
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -86,16 +87,14 @@ class _HistoryCard extends StatelessWidget {
     );
   }
 
-  Color _getColorForCondition(String condition) {
+  Color? _getColorForCondition(String condition) {
     switch (condition.toLowerCase()) {
       case 'oily':
-        return Colors.yellow.shade200;
+        return Colors.green[100];
       case 'blackhead':
-        return Colors.grey.shade300;
+        return Colors.purple[100];
       case 'acne':
         return Colors.red.shade200;
-      case 'normal':
-        return Colors.green.shade200;
       default:
         return Colors.blue.shade200;
     }

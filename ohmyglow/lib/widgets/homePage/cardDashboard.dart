@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget cardDashboard = Card(
   elevation: 4,
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-  color: const Color(0xFFDFD3FB),
+  color: const Color(0xFFE9E0FC),
   child: Padding(
     padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
     child: Column(

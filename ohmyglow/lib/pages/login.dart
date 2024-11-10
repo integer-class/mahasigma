@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/main.dart';
+import 'package:ohmyglow/main_screen.dart';
 import 'package:ohmyglow/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -106,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Perform login logic here
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()),
+                      MaterialPageRoute(builder: (context) => MainScreen()),
                     );
                   } else {
                     // Show an error message to the user

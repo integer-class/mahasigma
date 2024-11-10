@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ohmyglow/main_screen.dart';
 import 'package:ohmyglow/pages/Analyst.dart';
 import 'package:ohmyglow/pages/home.dart';
 import 'package:camera/camera.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorSchemeSeed: Color(0xFFF8F8F8), //colorScheme bukan deepPurple tp #F8F8F8!!!
         useMaterial3: true,
       ),
       home: SplashScreen(),
@@ -91,12 +93,13 @@ class _SplashScreenState extends State<SplashScreen>
       if (isLoggedIn) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
+          MaterialPageRoute(builder: (context) => MainScreen()),
         );
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          // MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(builder: (context) => MainScreen()), //For debug purpose, make sure to turn off this after debugging
         );
       }
     });
@@ -130,63 +133,4 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0; // Index of the currently selected item
-
-  // List of widgets for each page
-  final List<Widget> _pages = [
-    HomePage(),
-    HistoryPage(),
-    AnalystPage(),
-    ProfilePage()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index; // Update the selected index
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        color: Colors.white, // Set background color
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_rounded),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.access_time_rounded),
-              label: 'History',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart_rounded),
-              label: 'Analyst',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_rounded),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.deepPurple,
-          backgroundColor: Colors.white,
-          onTap: _onItemTapped,
-          type: BottomNavigationBarType.fixed,
-        ),
-      ),
-    );
-  }
-}

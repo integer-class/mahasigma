@@ -20,13 +20,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
         children: [
           Container(
+        // crossAxisAlignment: CrossAxisAlignment.start,
               padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
               child: profileDashboard),
+              
           Card(
             color: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -144,7 +144,6 @@ class _HomePageState extends State<HomePage> {
           //   },
           // )
         ],
-      ),
     );
   }
 }
