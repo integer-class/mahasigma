@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:ohmyglow/pages/imageDisplay.dart';
-import 'package:tflite/tflite.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -60,27 +59,18 @@ class _CameraPageState extends State<CameraPage> {
   Future<void> _capturePhoto() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
       final image = await _cameraController!.takePicture();
-      List<dynamic>? recognitions = await _runObjectDetection(image.path);
+      // List<dynamic>? recognitions = await _runObjectDetection(image.path);
 
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ImageDisplayPage(
             imagePath: image.path,
-            recognitions: recognitions,
+            // recognitions: recognitions,
           ),
         ),
       );
     }
-  }
-
-  Future<List<dynamic>?> _runObjectDetection(String imagePath) async {
-    return await Tflite.detectObjectOnImage(
-      path: imagePath,
-      model: "SSDMobileNet",
-      threshold: 0.5,
-      asynch: true,
-    );
   }
 
   Future<void> _toggleFlash() async {
@@ -108,13 +98,6 @@ class _CameraPageState extends State<CameraPage> {
     if (mounted) {
       setState(() {});
     }
-  }
-
-  Future<void> _loadModel() async {
-    await Tflite.loadModel(
-      model: "assets/model.tflite",
-      labels: "assets/labels.txt",
-    );
   }
 
   @override
