@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,7 +13,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: regularTS.copyWith(fontSize: 13, color: Colors.black),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -23,28 +27,28 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/profile_image.png'),
+                  backgroundImage: AssetImage('images/person.png'),
                 ),
                 SizedBox(width: 16.0),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Awaa",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Awaa",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      "20 Years",
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ],
+                      Text(
+                        "20 Years",
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               ],
             ),
             SizedBox(height: 24.0),

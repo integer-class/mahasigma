@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/main_screen.dart';
 import 'package:camera/camera.dart';
+import 'package:ohmyglow/pages/login.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -97,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen>
           // MaterialPageRoute(builder: (context) => LoginPage()),
           MaterialPageRoute(
               builder: (context) =>
-                  MainScreen()), //For debug purpose, make sure to turn off this after debugging
+                  LoginPage()), //For debug purpose, make sure to turn off this after debugging
         );
       }
     });

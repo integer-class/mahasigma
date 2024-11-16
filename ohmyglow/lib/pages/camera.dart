@@ -129,18 +129,6 @@ class _CameraPageState extends State<CameraPage> {
                   color: Colors.black.withOpacity(0.4),
                 ),
               ),
-              Positioned.fill(
-                child: Center(
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.purpleAccent, width: 3),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
               Positioned(
                 top: 20,
                 left: 10,
@@ -151,6 +139,10 @@ class _CameraPageState extends State<CameraPage> {
                   },
                 ),
               ),
+              Positioned(
+                  top: 150,
+                  left: 10,
+                  child: Image.asset("images/maximize-2.png")),
               Positioned(
                 top: 20,
                 right: 10,

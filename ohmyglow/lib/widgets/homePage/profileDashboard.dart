@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 
 Widget profileDashboard = Padding(
-  padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+  padding: const EdgeInsets.fromLTRB(5, 10, 5, 30),
   child: Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Row(children: [
+      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Image.asset(
@@ -23,16 +22,17 @@ Widget profileDashboard = Padding(
             children: [
               Text(
                 "Hi Awaa!",
-                style: boldTS.copyWith(fontSize: 16, color: Colors.black,),
+                style: boldTS.copyWith(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
-              Text(
-                "Elevate your complextion care",
-                style: mediumItalicTS.copyWith(fontSize: 13, color: Colors.black)
-              ),
+              Text("Elevate your complextion care",
+                  style: mediumItalicTS.copyWith(
+                      fontSize: 11, color: Colors.black)),
             ],
           ),
         ),
-        const Spacer(),
         IconButton(
             alignment: Alignment.topRight,
             onPressed: () {},

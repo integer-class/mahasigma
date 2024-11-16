@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:ohmyglow/main_screen.dart';
+import 'package:ohmyglow/widgets/camera/progressBar.dart';
+import 'package:ohmyglow/widgets/camera/resultCard.dart';
+import '../config/theme.dart';
 
 class ImageDisplayPage extends StatelessWidget {
   final String imagePath;
@@ -10,19 +15,34 @@ class ImageDisplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String currentDate = DateFormat('dd MMMM yyyy').format(DateTime.now());
+
+    double acneConfidence = 0.75;
+    double oilyConfidence = 0.50;
+    double blackheadConfidence = 0.35;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Skin Diagnostic',
-          style: TextStyle(fontSize: 20),
+          style: regularTS.copyWith(fontSize: 18, color: Colors.black),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.save),
+          TextButton(
             onPressed: () {
-              print("Save button pressed");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MainScreen()),
+              );
             },
-          ),
+            child: Text(
+              "Save",
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          )
         ],
       ),
       body: Container(
@@ -64,7 +84,7 @@ class ImageDisplayPage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 20),
                                 child: Text(
-                                  "01 September 2024",
+                                  currentDate,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               )
@@ -83,6 +103,17 @@ class ImageDisplayPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 30),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    progressBar(label: "Acne", value: acneConfidence),
+                    progressBar(label: "Blackhead", value: blackheadConfidence),
+                    progressBar(label: "Oily", value: oilyConfidence)
+                  ],
+                ),
+              ),
               if (recognitions != null)
                 Expanded(
                   child: ListView.builder(
@@ -97,6 +128,15 @@ class ImageDisplayPage extends StatelessWidget {
                     },
                   ),
                 ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  resultCard(
+                      image: "images/water.png", title: "Drink More Water"),
+                  resultCard(image: "images/meal.png", title: "Healthy diet")
+                ],
+              )
             ],
           ),
         ),
