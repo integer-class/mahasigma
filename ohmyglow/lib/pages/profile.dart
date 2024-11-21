@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ohmyglow/pages/editprofile.dart';
 import '../config/theme.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -56,7 +57,11 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.edit),
               title: Text('Edit profile'),
               onTap: () {
-                // Handle edit profile action
+                // Navigasi ke halaman EditProfilePage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfilePage()),
+                );
               },
             ),
             ListTile(

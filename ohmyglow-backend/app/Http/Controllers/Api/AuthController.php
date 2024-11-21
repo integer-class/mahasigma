@@ -31,7 +31,7 @@ class AuthController extends Controller
         $user_loggedin=[
 
             'email' => $user->email,
-            
+            'token' => $token,
         ];
         return response()->json(
             $user_loggedin,
