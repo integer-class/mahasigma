@@ -31,3 +31,4 @@ Route::get('/images/{path}', function ($path) {
     return response()->file(storage_path('app/public/scans/' . $path));
 })->where('path', '.*');
 
+Route::post('/check_skin', [CheckSkinController::class, 'index']);
