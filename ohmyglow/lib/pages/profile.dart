@@ -64,23 +64,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text('Notifications'),
-              trailing: Switch(
-                value: true,
-                onChanged: (value) {
-                  // Handle notifications setting
-                },
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.share),
-              title: Text('Tell your friend'),
-              onTap: () {
-                // Handle tell your friend action
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.notifications),
+            //   title: Text('Notifications'),
+            //   trailing: Switch(
+            //     value: true,
+            //     onChanged: (value) {
+            //       // Handle notifications setting
+            //     },
+            //   ),
+            // ),
+            // ListTile(
+            //   leading: Icon(Icons.share),
+            //   title: Text('Tell your friend'),
+            //   onTap: () {
+            //     // Handle tell your friend action
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.feedback),
               title: Text('Feedback'),
@@ -95,13 +95,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Handle help and support action
               },
             ),
-            ListTile(
-              leading: Icon(Icons.security),
-              title: Text('Security'),
-              onTap: () {
-                // Handle security action
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.security),
+            //   title: Text('Security'),
+            //   onTap: () {
+            //     // Handle security action
+            //   },
+            // ),
             Spacer(),
             ListTile(
               leading: Icon(Icons.logout),

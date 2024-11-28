@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ohmyglow/main_screen.dart';
+import 'package:ohmyglow/mainScreen.dart';
 import 'package:ohmyglow/pages/register.dart';
 
 class LoginPage extends StatefulWidget {
