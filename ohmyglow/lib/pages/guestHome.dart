@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/models/item.dart';
-import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
 import 'package:ohmyglow/widgets/loginPopUp.dart';
