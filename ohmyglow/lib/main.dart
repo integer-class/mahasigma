@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ohmyglow/main_screen.dart';
+import 'package:ohmyglow/guestMainScreen.dart';
+import 'package:ohmyglow/mainScreen.dart';
 import 'package:camera/camera.dart';
 import 'package:ohmyglow/pages/login.dart';
 
@@ -98,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen>
           // MaterialPageRoute(builder: (context) => LoginPage()),
           MaterialPageRoute(
               builder: (context) =>
-                  LoginPage()), //For debug purpose, make sure to turn off this after debugging
+                  GuestMainScreen()), //For debug purpose, make sure to turn off this after debugging
         );
       }
     });

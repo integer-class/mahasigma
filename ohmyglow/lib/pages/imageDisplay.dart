@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:ohmyglow/main_screen.dart';
+import 'package:ohmyglow/mainScreen.dart';
 import 'package:ohmyglow/widgets/camera/progressBar.dart';
 import 'package:ohmyglow/widgets/camera/resultCard.dart';
 import '../config/theme.dart';
