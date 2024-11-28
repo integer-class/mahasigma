@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\Recommendation;
-use App\Models\Mushroom;
+use App\Models\Disease;
+use App\Models\skin;
 
 
 class CheckSkinController extends Controller
@@ -25,21 +25,21 @@ class CheckSkinController extends Controller
 
         $response = Http::attach(
             'file', file_get_contents($files), $files->getClientOriginalName()
-        )->post('http://20.5.25.52/predict/'
+        )->post('http://20.5.138.144/predict/'
         );
 
         $data = $response->json();
 
-        $skin = Skin::where('name', $data)->first();
-        $id = $mushroom->id;
-        $mushroom = Recommendation::where('mushroom_id', $id)->first();
+        $skin = Disease::where('name', $data)->first();
+        // $id = $skin->id;
+        // $skin = Recommendation::where('skin_id', $id)->first();
 
 
         return response()->json([
             'success' => true,
             'message' => 'Recommendations fetched successfully.',
-            'mushroom' => $data,
-            'data' => $mushroom,
+            'skin' => $skin,
+            // 'data' => $skin,
         ], 200);
 
 
