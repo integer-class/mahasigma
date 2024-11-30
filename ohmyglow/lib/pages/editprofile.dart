@@ -104,9 +104,9 @@ class EditProfilePage extends StatelessWidget {
               },
               child: Text('Save Changes'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Warna tombol
+                backgroundColor: Colors.blue[100], // Warna tombol
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                textStyle: TextStyle(fontSize: 16),
+                textStyle: regularTS.copyWith(color: Colors.black)
               ),
             ),
           ],
