@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/guestMainScreen.dart';
 import 'package:ohmyglow/mainScreen.dart';
 import 'package:camera/camera.dart';
+import 'package:ohmyglow/utils/token_storage.dart';
 
 late List<CameraDescription> _cameras;
 
@@ -82,12 +83,15 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.easeInOutCubicEmphasized,
     );
 
-    // Initialize slide animation
+    // Check login status after a delay
+    Future.delayed(Duration(seconds: 3), () async {
+      _scaleController?.stop();
 
-    // Start the slide up transition after a delay
-    Future.delayed(Duration(seconds: 3), () {
-      // _scaleController?.stop();
-      if (isLoggedIn) {
+      // Check if the user is logged in
+      bool loggedIn = await TokenStorage.isLoggedIn();
+
+      // Navigate to the appropriate screen
+      if (loggedIn) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),
@@ -95,10 +99,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         Navigator.pushReplacement(
           context,
-          // MaterialPageRoute(builder: (context) => LoginPage()),
-          MaterialPageRoute(
-              builder: (context) =>
-                  GuestMainScreen()), //For debug purpose, make sure to turn off this after debugging
+          MaterialPageRoute(builder: (context) => GuestMainScreen()),
         );
       }
     });

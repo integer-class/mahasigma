@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ohmyglow/mainScreen.dart';
+import 'package:http/http.dart' as http;
 import 'package:ohmyglow/pages/register.dart';
+import 'package:ohmyglow/utils/token_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,12 +17,66 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
 
-  bool _isValidLogin() {
-    // Implement your login validation logic here
-    // For example, you can check if the email and password are not empty
-    return _emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty;
+  // bool _isValidLogin() {
+  //   // Implement your login validation logic here
+  //   // For example, you can check if the email and password are not empty
+  //   return _emailController.text.isNotEmpty &&
+  //       _passwordController.text.isNotEmpty;
+  // }
+
+  Future<void> _login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Email and password are required.'),
+        ),
+      );
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final response = await http.post(
+        Uri.parse('http://ohmyglow-backend.test/api/login'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "password": password}),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data["status"] == "success") {
+          final token = data["token"];
+
+          await TokenStorage.saveToken(token);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(data["message"])),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to log in.")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An error occurred: $e")),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   bool _isPasswordVisible = false;
@@ -98,41 +157,28 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 16),
 
                 // Sign in button
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFDAB7FF), // Light purple color
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_isValidLogin()) {
-                      // Perform login logic here
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainScreen()),
-                      );
-                    } else {
-                      // Show an error message to the user
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content:
-                              Text('Please enter a valid email and password.'),
+                _isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Color(0xFFDAB7FF), // Light purple color
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                      );
-                    }
-                  },
-                  child: Center(
-                    child: Text(
-                      'SIGN IN',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        onPressed: _login,
+                        child: Center(
+                          child: Text(
+                            'SIGN IN',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 24),
 
                 // OR divider

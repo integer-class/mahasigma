@@ -25,7 +25,7 @@ class _HomePageState extends State<GuestHomePage> {
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: profileDashboard,
+          child: Text("Welcome!!", style: boldTS.copyWith(fontSize: 30)),
         ),
         Container(
           height: MediaQuery.of(context).size.height,

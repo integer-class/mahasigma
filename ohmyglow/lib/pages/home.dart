@@ -3,6 +3,7 @@ import 'package:ohmyglow/models/item.dart';
 import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config/theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,13 +20,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username'); // Retrieve saved username
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: profileDashboard,
+          child: ProfileDashboard(username: username),
         ),
         Container(
           height: MediaQuery.of(context).size.height,

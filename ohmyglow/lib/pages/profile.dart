@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ohmyglow/main.dart';
 import 'package:ohmyglow/pages/editprofile.dart';
+import 'package:ohmyglow/pages/guestHome.dart';
+import 'package:ohmyglow/utils/token_storage.dart';
 import '../config/theme.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -10,6 +13,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Future<void> logout() async {
+    await TokenStorage.deleteToken();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MyApp()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,23 +75,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
             ),
-            // ListTile(
-            //   leading: Icon(Icons.notifications),
-            //   title: Text('Notifications'),
-            //   trailing: Switch(
-            //     value: true,
-            //     onChanged: (value) {
-            //       // Handle notifications setting
-            //     },
-            //   ),
-            // ),
-            // ListTile(
-            //   leading: Icon(Icons.share),
-            //   title: Text('Tell your friend'),
-            //   onTap: () {
-            //     // Handle tell your friend action
-            //   },
-            // ),
             ListTile(
               leading: Icon(Icons.feedback),
               title: Text('Feedback'),
@@ -95,19 +89,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Handle help and support action
               },
             ),
-            // ListTile(
-            //   leading: Icon(Icons.security),
-            //   title: Text('Security'),
-            //   onTap: () {
-            //     // Handle security action
-            //   },
-            // ),
             Spacer(),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Log out'),
               onTap: () {
                 // Handle log out action
+                logout();
               },
             ),
           ],
