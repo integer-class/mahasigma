@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:ohmyglow/main.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -21,6 +22,58 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() {
       _isPasswordVisible = !_isPasswordVisible;
     });
+  }
+
+  Future<void> _register() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (_formKey.currentState!.validate()) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+      );
+
+      try {
+        final response = await http.post(
+          Uri.parse('http://20.190.121.86/api/register'),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode({
+            "name": name,
+            "email": email,
+            "password": password,
+          }),
+        );
+
+        Navigator.pop(context); // Tutup loading indicator
+
+        if (response.statusCode == 200) {
+          final data = jsonDecode(response.body);
+
+          if (data["status"] == "success") {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Registration successful!")),
+            );
+            Navigator.pop(context); // Kembali ke halaman login
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(data["message"] ?? "Registration failed.")),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Failed to register.")),
+          );
+        }
+      } catch (e) {
+        Navigator.pop(context); // Tutup loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("An error occurred: $e")),
+        );
+      }
+    }
   }
 
   @override
@@ -51,17 +104,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.person),
                     hintText: 'Full name',
-                    hintStyle: TextStyle(fontSize: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your full name';
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value!.isEmpty ? 'Please enter your full name' : null,
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
@@ -69,19 +117,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email_outlined),
                     hintText: 'youremail@gmail.com',
-                    hintStyle: TextStyle(fontSize: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        !value.contains('@')) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value!.contains('@') ? null : 'Invalid email address',
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
@@ -96,17 +137,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           : Icons.visibility_off_outlined),
                       onPressed: _togglePasswordVisibility,
                     ),
-                    hintStyle: TextStyle(fontSize: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value.length < 6) {
-                      return 'Password must be at least 6 characters long';
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value!.length >= 6 ? null : 'Password too short',
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
@@ -115,44 +151,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock_outline),
                     hintText: 'Confirm password',
-                    suffixIcon: IconButton(
-                      icon: Icon(_isPasswordVisible
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
-                      onPressed: _togglePasswordVisibility,
-                    ),
-                    hintStyle: TextStyle(fontSize: 15),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null ||
-                        value.isEmpty ||
-                        value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
+                  validator: (value) => value == _passwordController.text
+                      ? null
+                      : 'Passwords do not match',
                 ),
                 SizedBox(height: 24.0),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFDAB7FF), // Light purple color
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Register the user
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SplashScreen()),
-                      );
-                    }
-                  },
+                  onPressed: _register,
                   child: Center(
                     child: Text(
                       'SIGN UP',
@@ -161,34 +170,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text("OR"),
-                    ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-                SizedBox(height: 24),
-                Center(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(color: Colors.grey),
-                      ),
-                    ),
-                    onPressed: () {},
-                    icon: Icon(Icons.g_mobiledata, size: 28),
-                    label: Text("Login with Google"),
                   ),
                 ),
               ],

@@ -43,13 +43,13 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       final response = await http.post(
-        Uri.parse('http://ohmyglow-backend.test/api/login'),
+        Uri.parse('http://20.190.121.86/api/login'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        if (data["status"] == "success") {
+if (data["token"] != null) {
           final token = data["token"];
 
           await TokenStorage.saveToken(token);
@@ -71,7 +71,9 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("An error occurred: $e")),
+        
       );
+      print(e);
     } finally {
       setState(() {
         _isLoading = false;
