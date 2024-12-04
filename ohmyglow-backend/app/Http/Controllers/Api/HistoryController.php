@@ -11,6 +11,9 @@ class HistoryController extends Controller
     public function index(Request $request)
     {
         $histories = ScanHistory::where('user_id', $request->user()->id)->get();
-        return response()->json($histories);
+        return response()->json([
+            'status' => 'success',
+            'data' => $histories
+        ]);
     }
 }

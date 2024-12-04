@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:ohmyglow/pages/imageDisplay.dart';
 
 class CameraPage extends StatefulWidget {
@@ -49,7 +50,7 @@ class _CameraPageState extends State<CameraPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ImageDisplayPage(
-            imagePath: imageFile.path,
+            imagePath: imageFile.path, apiResponse: '',
           ),
         ),
       );
@@ -58,18 +59,34 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> _capturePhoto() async {
     if (_cameraController != null && _cameraController!.value.isInitialized) {
-      final image = await _cameraController!.takePicture();
-      // List<dynamic>? recognitions = await _runObjectDetection(image.path);
+      try {
+        final image = await _cameraController!.takePicture();
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImageDisplayPage(
-            imagePath: image.path,
-            // recognitions: recognitions,
-          ),
-        ),
-      );
+        // Kirim gambar ke API
+        var request = http.MultipartRequest('POST', Uri.parse('http://20.190.121.86/api/check_skin'));
+        request.files.add(await http.MultipartFile.fromPath('files', image.path));
+
+        http.StreamedResponse response = await request.send();
+
+        if (response.statusCode == 200) {
+          String result = await response.stream.bytesToString();
+          print('Response dari API: $result');
+          
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImageDisplayPage(
+                imagePath: image.path,
+                apiResponse: result,
+              ),
+            ),
+          );
+        } else {
+          print('Error: ${response.reasonPhrase}');
+        }
+      } catch (e) {
+        print('Terjadi kesalahan: $e');
+      }
     }
   }
 
@@ -140,9 +157,10 @@ class _CameraPageState extends State<CameraPage> {
                 ),
               ),
               Positioned(
-                  top: 150,
-                  left: 10,
-                  child: Image.asset("images/maximize-2.png")),
+                top: 150,
+                left: 10,
+                child: Image.asset("images/maximize-2.png"),
+              ),
               Positioned(
                 top: 20,
                 right: 10,

@@ -11,7 +11,7 @@ class ImageDisplayPage extends StatelessWidget {
   final List<dynamic>? recognitions;
 
   const ImageDisplayPage(
-      {super.key, required this.imagePath, this.recognitions});
+      {super.key, required this.imagePath, this.recognitions, required String apiResponse});
 
   @override
   Widget build(BuildContext context) {

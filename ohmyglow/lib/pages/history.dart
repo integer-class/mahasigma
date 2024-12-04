@@ -1,50 +1,68 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../config/theme.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
+
+  @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  List<dynamic> _historyData = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHistory();
+  }
+
+  Future<void> _fetchHistory() async {
+    final url = Uri.parse('http://20.190.121.86/api/history');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        _historyData = data['data'];
+        _isLoading = false;
+      });
+    } else {
+      // Handle error
+      setState(() {
+        _isLoading = false;
+      });
+      print('Failed to load history: ${response.statusCode}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: ImageIcon(AssetImage('assets/Icons/arrow-left.png')),
-        ),
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "History Analysis",
-          style: semiBoldTS.copyWith(fontSize: 16, color: Colors.black,),
-          ),
+        title: Text("History Analysis"),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: const [
-          _HistoryCard(
-            date: "1 September 2024",
-            conditions: ["Oily", "Blackhead", "Acne"],
-          ),
-          _HistoryCard(
-            date: "8 September 2024",
-            conditions: ["Oily", "Blackhead", "Acne"],
-          ),
-          _HistoryCard(
-            date: "22 September 2024",
-            conditions: ["Oily", "Acne"],
-          ),
-          _HistoryCard(
-            date: "29 September 2024",
-            conditions: ["Oily"],
-          ),
-          _HistoryCard(
-            date: "6 October 2024",
-            conditions: ["Normal"],
-          ),
-        ],
-      ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: _historyData.length,
+              itemBuilder: (context, index) {
+                final history = _historyData[index];
+                return _HistoryCard(
+                  date: history['date'],
+                  conditions: List<String>.from(history['conditions']),
+                );
+              },
+            ),
     );
   }
 }
@@ -72,17 +90,27 @@ class _HistoryCard extends StatelessWidget {
           children: [
             Text(
               date,
-              style:mediumTS.copyWith(fontSize: 16, color: Colors.black,),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
-              children: conditions.map((condition) => Chip(
-                label: Text(
-                  condition,
-                  style: semiBoldTS,),
-                backgroundColor: _getColorForCondition(condition),
-              )).toList(),
+              children: conditions
+                  .map((condition) => Chip(
+                        label: Text(
+                          condition,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                        backgroundColor: _getColorForCondition(condition),
+                      ))
+                  .toList(),
             ),
           ],
         ),
@@ -103,3 +131,4 @@ class _HistoryCard extends StatelessWidget {
     }
   }
 }
+
