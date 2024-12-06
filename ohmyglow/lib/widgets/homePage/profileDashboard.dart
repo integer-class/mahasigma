@@ -40,13 +40,13 @@ class ProfileDashboard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-                alignment: Alignment.topRight,
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications_outlined,
-                  size: 35,
-                )),
+            // IconButton(
+            //     alignment: Alignment.topRight,
+            //     onPressed: () {},
+            //     icon: const Icon(
+            //       Icons.notifications_outlined,
+            //       size: 35,
+            //     )),
           ]),
         ],
       ),

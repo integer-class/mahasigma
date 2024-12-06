@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ohmyglow/utils/token_storage.dart';
 import '../config/theme.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -21,18 +22,28 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   Future<void> _fetchHistory() async {
+    final token =
+        await TokenStorage.getToken(); // Retrieve the token from storage
+    if (token == null) {
+      print("Token not found!");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
     final url = Uri.parse('http://20.190.121.86/api/history');
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+        'Authorization': 'Bearer $token', // Pass the token in the header
       },
     );
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       setState(() {
-        _historyData = data['data'];
+        _historyData = data['data']; // Ensure this matches your API response
         _isLoading = false;
       });
     } else {
@@ -52,17 +63,23 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: _historyData.length,
-              itemBuilder: (context, index) {
-                final history = _historyData[index];
-                return _HistoryCard(
-                  date: history['date'],
-                  conditions: List<String>.from(history['conditions']),
-                );
-              },
-            ),
+          : _historyData.isEmpty
+              ? Center(
+                  child: Text(
+                  'No history data available.',
+                  style: TextStyle(fontSize: 16),
+                ))
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: _historyData.length,
+                  itemBuilder: (context, index) {
+                    final history = _historyData[index];
+                    return _HistoryCard(
+                      date: history['created_at'],
+                      conditions: List<String>.from(history['result']),
+                    );
+                  },
+                ),
     );
   }
 }
@@ -131,4 +148,3 @@ class _HistoryCard extends StatelessWidget {
     }
   }
 }
-

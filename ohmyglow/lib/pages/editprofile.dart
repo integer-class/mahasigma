@@ -89,7 +89,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ..fields['email'] = emailController.text;
 
       if (_selectedImage != null) {
-        request.files.add(await http.MultipartFile.fromPath('avatar', _selectedImage!.path));
+        request.files.add(
+            await http.MultipartFile.fromPath('avatar', _selectedImage!.path));
       }
 
       final response = await request.send();
@@ -109,7 +110,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -130,10 +132,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       radius: 50,
                       backgroundImage: _selectedImage != null
                           ? FileImage(_selectedImage!)
-                          : const AssetImage('images/person.png') as ImageProvider,
+                          : const AssetImage('images/person.png')
+                              as ImageProvider,
                       child: Align(
                         alignment: Alignment.bottomRight,
-                        child: Icon(Icons.add_circle, color: Colors.green.shade700),
+                        child: Icon(Icons.add_circle,
+                            color: Colors.green.shade700),
                       ),
                     ),
                   ),

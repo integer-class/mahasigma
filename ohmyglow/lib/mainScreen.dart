@@ -4,7 +4,9 @@ import 'package:ohmyglow/pages/home.dart';
 import 'package:ohmyglow/pages/profile.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({
+    super.key,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -12,9 +14,6 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0; // Index of the currently selected item
-
-  // List of widgets for each page
-  final List<Widget> _pages = [HomePage(), HistoryPage(), ProfilePage()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,6 +23,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [HomePage(), HistoryPage(), ProfilePage()];
+
     return Scaffold(
       backgroundColor: Color(0xffE9E0FC),
       body: _pages[_selectedIndex],

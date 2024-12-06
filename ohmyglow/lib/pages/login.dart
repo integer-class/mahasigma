@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-if (data["token"] != null) {
+        if (data["token"] != null) {
           final token = data["token"];
 
           await TokenStorage.saveToken(token);
@@ -71,7 +71,6 @@ if (data["token"] != null) {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("An error occurred: $e")),
-        
       );
       print(e);
     } finally {
@@ -150,12 +149,12 @@ if (data["token"] != null) {
                 SizedBox(height: 16),
 
                 // Remember Me checkbox
-                Row(
-                  children: [
-                    Checkbox(value: false, onChanged: (value) {}),
-                    Text("Remember Me"),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Checkbox(value: false, onChanged: (value) {}),
+                //     Text("Remember Me"),
+                //   ],
+                // ),
                 SizedBox(height: 16),
 
                 // Sign in button
@@ -197,20 +196,20 @@ if (data["token"] != null) {
                 SizedBox(height: 24),
 
                 // Login with Google button
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      side: BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                  onPressed: () {},
-                  icon: Icon(Icons.g_mobiledata, size: 28),
-                  label: Text("Login with Google"),
-                ),
+                // ElevatedButton.icon(
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.white,
+                //     foregroundColor: Colors.black,
+                //     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(8),
+                //       side: BorderSide(color: Colors.grey),
+                //     ),
+                //   ),
+                //   onPressed: () {},
+                //   icon: Icon(Icons.g_mobiledata, size: 28),
+                //   label: Text("Login with Google"),
+                // ),
 
                 SizedBox(height: 24),
 

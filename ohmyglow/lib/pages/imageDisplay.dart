@@ -11,7 +11,10 @@ class ImageDisplayPage extends StatelessWidget {
   final List<dynamic>? recognitions;
 
   const ImageDisplayPage(
-      {super.key, required this.imagePath, this.recognitions, required String apiResponse});
+      {super.key,
+      required this.imagePath,
+      this.recognitions,
+      required String apiResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +33,10 @@ class ImageDisplayPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MainScreen()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => MainScreen()),
+              // );
             },
             child: Text(
               "Save",
