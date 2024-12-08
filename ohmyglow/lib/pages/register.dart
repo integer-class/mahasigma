@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ohmyglow/pages/login.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -56,7 +57,10 @@ class _SignUpPageState extends State<SignUpPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Registration successful!")),
             );
-            Navigator.pop(context); // Kembali ke halaman login
+            Navigator.pop(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => LoginPage())); // Kembali ke halaman login
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(data["message"] ?? "Registration failed.")),

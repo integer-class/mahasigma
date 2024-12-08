@@ -11,10 +11,7 @@ class Profile extends Model
 
     protected $fillable = [
         'user_id',
-        'fullname',
-        'nickname',
-        'age',
-        'avatar',
+        'username,'
     ];
 
     /**
@@ -23,5 +20,10 @@ class Profile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function getUsernameAttribute()
+    {
+        return $this->user->username;  // Mengambil username dari relasi user
     }
 }

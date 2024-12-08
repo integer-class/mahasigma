@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Profile;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
+        
 
         $user = User::create([
             'name' => $request->name,
@@ -24,11 +26,15 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $profile = Profile::create([
+            'user_id' => $user->id,
+        ]);
+
         $token = $user->createToken("auth_token")->plainTextToken;
 
         return response()->json(
             [
-                "user" => $user,
+                "user" => $user->id,
                 "token" => $token,
                 "message" => "Registration successful",
                 "status" => "success",

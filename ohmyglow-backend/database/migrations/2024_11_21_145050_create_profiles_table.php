@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relasi dengan tabel users
-            $table->string('fullname');
+            $table->string('fullname')->nullable();
             $table->string('nickname')->nullable();
             $table->integer('age')->nullable();
             $table->string('avatar')->nullable(); // URL foto profil
