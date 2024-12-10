@@ -9,25 +9,20 @@ class Disease extends Model
 {
     use HasFactory;
 
-    /**
-     * Table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'diseases';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'description',
+        'photo',
         'symptoms',
         'treatment',
+        'cause',
+        'prevention',
+        'contagious',
+        'risk_factors',
+        'related_diseases',
+        'references',
     ];
-
+    
     /**
      * Relationships
      */
