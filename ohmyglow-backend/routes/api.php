@@ -32,3 +32,8 @@ Route::get('/images/{path}', function ($path) {
 })->where('path', '.*');
 
 Route::post('/check_skin', [CheckSkinController::class, 'index']);
+
+use App\Http\Controllers\Api\DiseaseController;
+
+Route::apiResource('/diseases', DiseaseController::class);
+

@@ -50,7 +50,9 @@ class _CameraPageState extends State<CameraPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ImageDisplayPage(
-            imagePath: imageFile.path, apiResponse: '',
+            imagePath: imageFile.path,
+            apiResponse: '',
+            diseaseId: 0, // Default value for testing
           ),
         ),
       );
@@ -63,21 +65,28 @@ class _CameraPageState extends State<CameraPage> {
         final image = await _cameraController!.takePicture();
 
         // Kirim gambar ke API
-        var request = http.MultipartRequest('POST', Uri.parse('http://20.190.121.86/api/check_skin'));
-        request.files.add(await http.MultipartFile.fromPath('files', image.path));
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse('http://20.190.121.86/api/check_skin'),
+        );
+        request.files.add(
+          await http.MultipartFile.fromPath('files', image.path),
+        );
 
         http.StreamedResponse response = await request.send();
 
         if (response.statusCode == 200) {
           String result = await response.stream.bytesToString();
+          int diseaseId = _parseDiseaseId(result); // Tambahkan logika parsing
           print('Response dari API: $result');
-          
+
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ImageDisplayPage(
                 imagePath: image.path,
                 apiResponse: result,
+                diseaseId: diseaseId,
               ),
             ),
           );
@@ -88,6 +97,15 @@ class _CameraPageState extends State<CameraPage> {
         print('Terjadi kesalahan: $e');
       }
     }
+  }
+
+  // Tambahkan fungsi parsing diseaseId
+  int _parseDiseaseId(String apiResponse) {
+    // Contoh logika sederhana untuk parsing
+    if (apiResponse.contains('Acne')) return 1;
+    if (apiResponse.contains('Eczema')) return 2;
+    if (apiResponse.contains('Rosacea')) return 3;
+    return 0; // Default jika tidak terdeteksi
   }
 
   Future<void> _toggleFlash() async {

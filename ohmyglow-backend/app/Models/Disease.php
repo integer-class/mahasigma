@@ -22,6 +22,10 @@ class Disease extends Model
         'related_diseases',
         'references',
     ];
+
+    protected $casts = [
+        'contagious' => 'boolean',
+    ];
     
     /**
      * Relationships
