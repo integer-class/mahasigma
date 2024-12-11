@@ -24,7 +24,7 @@ class CheckSkinController extends Controller
 
 
         $response = Http::attach(
-            'files', file_get_contents($files), $files->getClientOriginalName()
+            'file', file_get_contents($files), $files->getClientOriginalName()
         )->post('http://20.5.138.144/predict/'
         );
 
