@@ -16,23 +16,54 @@ class HomePage extends StatefulWidget {
     super.key,
   });
 
-  final List<Item> items = [
-    Item(image: 'images/nose.png', title: "Blackhead"),
-    Item(image: 'images/jerawat.png', title: "Eczema"),
-    Item(image: 'images/jerawat.png', title: "Anu")
-  ];
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   Future<Map<String, dynamic>?>? _userDataFuture;
+  List<dynamic> _diseaseData = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _userDataFuture = fetchUserData();
+    _fetchDisease();
+  }
+
+  Future<void> _fetchDisease() async {
+    final token =
+        await TokenStorage.getToken(); // Retrieve the token from storage
+    if (token == null) {
+      print("Token not found!");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    final url = Uri.parse('http://20.190.121.86/api/diseases');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token', // Pass the token in the header
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      setState(() {
+        _diseaseData = data['data']; // Ensure this matches your API response
+        _isLoading = false;
+      });
+    } else {
+      // Handle error
+      setState(() {
+        _isLoading = false;
+      });
+      print('Failed to load history: ${response.statusCode}');
+    }
   }
 
   @override
@@ -73,105 +104,78 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFC8F3CC),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Set your desired radius
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 25),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFC8F3CC),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CameraPage()),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image(
-                                image:
-                                    AssetImage("images/logo-face-button.png"),
-                                width: 30,
-                              ),
-                              const SizedBox(width: 13),
-                              Text(
-                                "Use AI to scan your face",
-                                style: regularTS.copyWith(
-                                    fontSize: 13, color: Colors.black),
-                              ),
-                              const SizedBox(
-                                width: 13,
-                              ),
-                              ImageIcon(
-                                AssetImage(
-                                  'assets/Icons/arrow-right.png',
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 25),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CameraPage()),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Image(
+                              image: AssetImage("images/logo-face-button.png"),
+                              width: 30,
+                            ),
+                            const SizedBox(width: 13),
+                            Text(
+                              "Use AI to scan your face",
+                              style: regularTS.copyWith(
+                                  fontSize: 13, color: Colors.black),
+                            ),
+                            const SizedBox(width: 13),
+                            ImageIcon(
+                              AssetImage('assets/Icons/arrow-right.png'),
+                              color: Colors.black,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 35, 0, 15),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Skin Diseases",
+                              style: semiBoldTS.copyWith(
+                                  fontSize: 20, color: Colors.black),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                      ),
+                      _isLoading
+                          ? CircularProgressIndicator()
+                          : Expanded(
+                              child: GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16.0,
+                                  mainAxisSpacing: 16.0,
                                 ),
-                                color: Colors.black,
-                                size: 20,
-                              )
-                            ],
-                          )),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 35, 0, 15),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Skin Type",
-                              style: semiBoldTS.copyWith(
-                                  fontSize: 20, color: Colors.black),
-                              textAlign: TextAlign.start,
+                                itemCount: _diseaseData.length,
+                                itemBuilder: (context, index) {
+                                  final item = _diseaseData[index];
+                                  return Cardmenu(
+                                    image: item['photo'],
+                                    title: item['name'],
+                                  );
+                                },
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            Cardmenu(
-                                image: widget.items[0].image,
-                                title: widget.items[0].title),
-                            Cardmenu(
-                                image: widget.items[1].image,
-                                title: widget.items[1].title),
-                            Cardmenu(
-                                image: widget.items[2].image,
-                                title: widget.items[2].title),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 35, 0, 15),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Skin Problem",
-                              style: semiBoldTS.copyWith(
-                                  fontSize: 20, color: Colors.black),
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            Cardmenu(
-                                image: widget.items[0].image,
-                                title: widget.items[0].title),
-                            Cardmenu(
-                                image: widget.items[1].image,
-                                title: widget.items[1].title),
-                            Cardmenu(
-                                image: widget.items[2].image,
-                                title: widget.items[2].title),
-                          ],
-                        ),
+                      SizedBox(
+                        height: 200,
                       )
                     ],
                   ),
