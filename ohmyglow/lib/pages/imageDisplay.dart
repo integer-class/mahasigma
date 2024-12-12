@@ -11,7 +11,7 @@ class ImageDisplayPage extends StatefulWidget {
   const ImageDisplayPage({
     Key? key,
     required this.imagePath,
-    required this.diseaseId, 
+    required this.diseaseId,
     required String apiResponse,
   }) : super(key: key);
 
@@ -39,7 +39,7 @@ class _ImageDisplayPageState extends State<ImageDisplayPage> {
       });
     } else {
       // Handle error
-      print("Failed to load disease data");
+      print('Failed to load disease data');
     }
   }
 

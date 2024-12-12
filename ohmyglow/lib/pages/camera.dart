@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -43,19 +45,69 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> _pickImageFromGallery() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ImageDisplayPage(
-            imagePath: imageFile.path,
-            apiResponse: '',
-            diseaseId: 0, // Default value for testing
-          ),
-        ),
-      );
+
+    try {
+      // Pick the image from the gallery
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        // Send the image to the API
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse('http://20.190.121.86/api/check_skin'),
+        );
+        request.files.add(
+          await http.MultipartFile.fromPath('files', pickedFile.path),
+        );
+
+        http.StreamedResponse response = await request.send();
+
+        if (response.statusCode == 200) {
+          // Membaca respons dari API
+          String result = await response.stream.bytesToString();
+          int diseaseId = _parseDiseaseId(result); // Panggil fungsi parsing
+
+          if (diseaseId == -1) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("No Face Detected")),
+            );
+          }
+          if (diseaseId > 0) {
+            // Debugging untuk memastikan parsing benar
+            print('Response from API: $result');
+            print('Parsed diseaseId: $diseaseId');
+
+            // Navigasi ke halaman berikutnya
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ImageDisplayPage(
+                  imagePath: pickedFile.path,
+                  apiResponse: result,
+                  diseaseId: diseaseId,
+                ),
+              ),
+            );
+          }
+        } else {
+          print('Error: ${response.reasonPhrase}');
+        }
+      } else {
+        print('No image selected');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
+
+  int _parseDiseaseId(String result) {
+    final Map<String, dynamic> jsonData = json.decode(result);
+
+    // Validasi JSON respons dan ambil ID penyakit
+    if (jsonData['success'] == true && jsonData['skin'] != null) {
+      return jsonData['skin']['id']; // Mengambil 'id' dari field 'skin'
+    } else {
+      return -1;
     }
   }
 
@@ -97,15 +149,6 @@ class _CameraPageState extends State<CameraPage> {
         print('Terjadi kesalahan: $e');
       }
     }
-  }
-
-  // Tambahkan fungsi parsing diseaseId
-  int _parseDiseaseId(String apiResponse) {
-    // Contoh logika sederhana untuk parsing
-    if (apiResponse.contains('Acne')) return 1;
-    if (apiResponse.contains('Eczema')) return 2;
-    if (apiResponse.contains('Rosacea')) return 3;
-    return 0; // Default jika tidak terdeteksi
   }
 
   Future<void> _toggleFlash() async {

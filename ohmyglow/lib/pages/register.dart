@@ -45,12 +45,13 @@ class _SignUpPageState extends State<SignUpPage> {
             "name": name,
             "email": email,
             "password": password,
+            "password_confirmation": password,
           }),
         );
 
         Navigator.pop(context); // Tutup loading indicator
 
-        if (response.statusCode == 200) {
+        if (response.statusCode == 201) {
           final data = jsonDecode(response.body);
 
           if (data["status"] == "success") {

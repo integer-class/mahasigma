@@ -16,7 +16,7 @@ model = tf.keras.models.load_model("mobilenet_with_cnn.h5")
 mtcnn = MTCNN()
 
 # Define class labels
-class_labels = ["Acne", "Actinic Keratosis", "Basal Cell Carcinoma", "Eczema", "Normal", "Rosacea"]
+class_labels = ["blackhead", "eksim", "flek hitam", "herpes", "jerawat", "milia", "Normal","panu", "rosacea", "tineafasialis"]
 
 
 # Preprocessing function
@@ -101,3 +101,7 @@ def root():
     Root endpoint to check if the server is running.
     """
     return {"message": "Skin disease classification API with MTCNN is running."}
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
