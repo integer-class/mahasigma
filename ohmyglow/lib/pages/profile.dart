@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
             appBar: AppBar(
               title: Text(
                 'Profile',
-                style: regularTS.copyWith(fontSize: 13, color: Colors.black),
+                style: boldTS.copyWith(color: Colors.black),
               ),
             ),
             body: Padding(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/data/responses/fetchUserData.dart';
 import 'package:ohmyglow/models/item.dart';
 import 'package:ohmyglow/pages/camera.dart';
+import 'package:ohmyglow/pages/descriptionPage.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 child: ProfileDashboard(username: username),
               ),
               Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height * 1.3,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -99,8 +100,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+                  padding: const EdgeInsets.fromLTRB(30, 40, 30, 0),
                   child: Column(
                     children: [
                       ElevatedButton(
@@ -158,6 +158,8 @@ class _HomePageState extends State<HomePage> {
                           ? CircularProgressIndicator()
                           : Expanded(
                               child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -167,16 +169,24 @@ class _HomePageState extends State<HomePage> {
                                 itemCount: _diseaseData.length,
                                 itemBuilder: (context, index) {
                                   final item = _diseaseData[index];
-                                  return Cardmenu(
-                                    image: item['photo'],
-                                    title: item['name'],
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DescriptionPage(
+                                              diseaseId: item['id']),
+                                        ),
+                                      );
+                                    },
+                                    child: Cardmenu(
+                                      image: item['photo'],
+                                      title: item['name'],
+                                    ),
                                   );
                                 },
                               ),
                             ),
-                      SizedBox(
-                        height: 200,
-                      )
                     ],
                   ),
                 ),
