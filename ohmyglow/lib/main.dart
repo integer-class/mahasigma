@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/guestMainScreen.dart';
 import 'package:ohmyglow/mainScreen.dart';
 import 'package:camera/camera.dart';
+import 'package:ohmyglow/pages/guestHome.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 
-late List<CameraDescription> _cameras;
+// late List<CameraDescription> _cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize the cameras and handle any errors that may occur.
-  try {
-    _cameras = await availableCameras();
-  } catch (e) {
-    print('Error initializing cameras: $e');
-  }
+  // try {
+  //   _cameras = await availableCameras();
+  // } catch (e) {
+  //   print('Error initializing cameras: $e');
+  // }
 
   runApp(const MyApp());
 }
@@ -66,8 +67,6 @@ class _SplashScreenState extends State<SplashScreen>
   AnimationController? _scaleController;
   Animation<double>? _scaleAnimation;
 
-  bool isLoggedIn = false;
-
   @override
   void initState() {
     super.initState();
@@ -99,7 +98,9 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => GuestMainScreen()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  GuestMainScreen()), // Use GuestMainScreen here
         );
       }
     });

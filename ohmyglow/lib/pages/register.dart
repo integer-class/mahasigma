@@ -59,12 +59,14 @@ class _SignUpPageState extends State<SignUpPage> {
               SnackBar(content: Text("Registration successful!")),
             );
             Navigator.pop(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => LoginPage())); // Kembali ke halaman login
+                context,
+                new MaterialPageRoute(
+                    builder: (context) =>
+                        LoginPage())); // Kembali ke halaman login
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(data["message"] ?? "Registration failed.")),
+              SnackBar(
+                  content: Text(data["message"] ?? "Registration failed.")),
             );
           }
         } else {
@@ -159,6 +161,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    suffixIcon: IconButton(
+                      icon: Icon(_isPasswordVisible
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined),
+                      onPressed: _togglePasswordVisibility,
+                    ),
                   ),
                   validator: (value) => value == _passwordController.text
                       ? null
@@ -166,6 +174,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 24.0),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFDAB7FF), // Light purple color
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   onPressed: _register,
                   child: Center(
                     child: Text(

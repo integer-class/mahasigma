@@ -1,16 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:ohmyglow/data/responses/fetchUserData.dart';
-import 'package:ohmyglow/mainScreen.dart';
-import 'package:ohmyglow/models/item.dart';
-import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/pages/descriptionPage.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
-import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
 import 'package:ohmyglow/widgets/loginPopUp.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../config/theme.dart';
 
@@ -34,22 +28,9 @@ class _HomePageState extends State<GuestHomePage> {
   }
 
   Future<void> _fetchDisease() async {
-    final token =
-        await TokenStorage.getToken(); // Retrieve the token from storage
-    if (token != null) {
-      print("Token not found!");
-      setState(() {
-        _isLoading = false;
-      });
-      return;
-    }
-
     final url = Uri.parse('http://20.190.121.86/api/diseases');
     final response = await http.get(
       url,
-      headers: {
-        'Authorization': 'Bearer $token', // Pass the token in the header
-      },
     );
 
     if (response.statusCode == 200) {
