@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('scan_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relasi ke tabel users
+            $table->foreignId('disease_id')->constrained()->onDelete('cascade'); // Relasi ke tabel diseases
             $table->string('image_path'); // Lokasi gambar hasil scan
-            $table->string('result'); // Hasil diagnosis
-            $table->timestamps();
+            $table->decimal('confidence_score', 5, 2); // Skor kepercayaan untuk diagnosis
+            $table->date('scan_date'); // Tanggal pemindaian
+            $table->timestamps(); // Kolom created_at dan updated_at
         });
     }
 
