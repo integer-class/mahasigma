@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ScanHistory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
@@ -29,7 +30,7 @@ class HistoryController extends Controller
         ]);
 
         $scanHistory = ScanHistory::create([
-            'user_id' => $request->user()->id,
+            'user_id' => auth()->user->id,
             'disease_id' => $validated['disease_id'],
             'image_path' => $validated['image_path'],
             'scan_date' => Carbon::now(),

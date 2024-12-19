@@ -3,16 +3,19 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:ohmyglow/utils/token_storage.dart';
+import 'package:ohmyglow/pages/history.dart';
 
 class ImageDisplayPage extends StatefulWidget {
   final String imagePath;
-  final int diseaseId; // ID untuk mendapatkan detail disease dari API
+  final int diseaseId;
 
   const ImageDisplayPage({
     Key? key,
     required this.imagePath,
     required this.diseaseId,
-    required String apiResponse,
+            required String apiResponse,
+
   }) : super(key: key);
 
   @override
@@ -21,6 +24,7 @@ class ImageDisplayPage extends StatefulWidget {
 
 class _ImageDisplayPageState extends State<ImageDisplayPage> {
   Map<String, dynamic>? diseaseData;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -29,18 +33,71 @@ class _ImageDisplayPageState extends State<ImageDisplayPage> {
   }
 
   Future<void> fetchDiseaseData() async {
+    print("Fetching disease data...");
     final response = await http.get(
       Uri.parse("http://20.190.121.86/api/diseases/${widget.diseaseId}"),
     );
 
     if (response.statusCode == 200) {
+      print("Disease data fetched successfully.");
       setState(() {
         diseaseData = json.decode(response.body)['data'];
       });
+      // Call saveAnalysis after data is successfully fetched
+      saveAnalysis();
     } else {
-      // Handle error
-      print('Failed to load disease data');
+      print('Failed to load disease data: ${response.statusCode}');
     }
+  }
+
+  Future<void> saveAnalysis() async {
+    print("Entering saveAnalysis...");
+
+    setState(() {
+      _isSaving = true;
+    });
+
+    final token = await TokenStorage.getToken();
+    if (token == null) {
+      print("Token not found!");
+      setState(() {
+        _isSaving = false;
+      });
+      return;
+    }
+
+    final url = Uri.parse('http://20.190.121.86/api/history');
+    final currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    final body = {
+      'disease_id': widget.diseaseId,
+      'image_path': widget.imagePath,
+      'confidence_score': '05',
+    };
+
+    try {
+      print("Sending POST request...");
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      if (response.statusCode == 200) {
+        print('Data saved successfully: ${response.body}');
+      } else {
+        print('Failed to save data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Error during POST request: $e");
+    }
+
+    setState(() {
+      _isSaving = false;
+    });
   }
 
   @override
@@ -55,12 +112,15 @@ class _ImageDisplayPageState extends State<ImageDisplayPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => MainScreen()),
-              // );
-            },
+            onPressed: _isSaving
+                ? null
+                : () {
+                    print("Navigating to history page...");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HistoryPage()),
+                    );
+                  },
             child: Text(
               "Save",
               style: TextStyle(

@@ -79,7 +79,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     final history = _historyData[index];
                     return _HistoryCard(
                       date: history['created_at'],
-                      conditions: List<String>.from(history['result']),
+                      conditions: List<String>.from(history['result']?? []),
                     );
                   },
                 ),
