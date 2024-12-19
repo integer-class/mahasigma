@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/guestMainScreen.dart';
 import 'package:ohmyglow/mainScreen.dart';
-import 'package:camera/camera.dart';
-import 'package:ohmyglow/pages/guestHome.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 
 // late List<CameraDescription> _cameras;

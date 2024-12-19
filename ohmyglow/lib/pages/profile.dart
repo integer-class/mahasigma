@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/data/responses/fetchUserData.dart';
 import 'package:ohmyglow/main.dart';
 import 'package:ohmyglow/pages/editprofile.dart';
-import 'package:ohmyglow/pages/guestHome.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 import '../config/theme.dart';
 

@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ohmyglow/data/responses/fetchUserData.dart';
-import 'package:ohmyglow/models/item.dart';
 import 'package:ohmyglow/pages/camera.dart';
 import 'package:ohmyglow/pages/descriptionPage.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 import 'package:ohmyglow/widgets/homePage/profileDashboard.dart';
 import 'package:ohmyglow/widgets/homePage/cardMenu.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../config/theme.dart';
 

@@ -23,8 +23,8 @@ class Cardmenu extends StatelessWidget {
               child: Image.asset(
                 image,
                 fit: BoxFit.cover,
-                width: 100,
-                height: 90,
+                width: MediaQuery.of(context).size.height * 0.11,
+                height: MediaQuery.of(context).size.height * 0.11,
               ),
             ),
             Padding(

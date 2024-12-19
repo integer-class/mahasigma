@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:ohmyglow/pages/error.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 import 'dart:convert';
 import '../config/theme.dart';
@@ -83,7 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<void> _updateProfile() async {
     if (!_formKey.currentState!.validate()) {
-      return; // Stop if the form is not valid
+      return;
     }
 
     final fullname = fullNameController.text.trim();
@@ -95,30 +96,42 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
 
     try {
-      final token = await TokenStorage.getToken(); // Retrieve the token
+      final token = await TokenStorage.getToken();
       if (token == null) {
         _showMessage("Token not found!");
         return;
       }
 
       final uri = Uri.parse('http://20.190.121.86/api/profile');
-      final request = http.MultipartRequest('POST', uri)
+      final request = http.MultipartRequest('PATCH', uri)
         ..headers['Authorization'] = 'Bearer $token'
         ..fields['fullname'] = fullname
         ..fields['nickname'] = nickname
         ..fields['age'] = age;
 
-      // if (_selectedImage != null) {
-      //   request.files.add(
-      //       await http.MultipartFile.fromPath('avatar', _selectedImage!.path));
-      // }
+      if (_selectedImage != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath('avatar', _selectedImage!.path),
+        );
+      }
 
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        _showMessage('Profile updated successfully');
+        final responseBody = await response.stream.bytesToString();
+        final decodedResponse = json.decode(responseBody);
+        _showMessage(
+            decodedResponse['message'] ?? 'Profile updated successfully');
       } else {
-        _showMessage('Failed to update profile: ${response.statusCode}');
+        final responseBody = await response.stream.bytesToString();
+        final decodedResponse = json.decode(responseBody);
+        MaterialPageRoute(
+            builder: (context) => MyError(
+                error: decodedResponse['errors']
+                    .toString())); // Use GuestMainScreen here
+
+        // _showMessage(decodedResponse['errors']?.toString() ??
+        //     'Failed to update profile');
       }
     } catch (e) {
       _showMessage('Error: $e');
@@ -134,11 +147,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
         .showSnackBar(SnackBar(content: Text(message)));
   }
 
+  final Future<String?> token = TokenStorage.getToken();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text(
+          'Edit Profile',
+        ),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())

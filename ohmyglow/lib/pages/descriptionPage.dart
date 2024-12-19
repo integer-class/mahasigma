@@ -40,7 +40,7 @@ class DescriptionPage extends StatelessWidget {
             child: Stack(children: [
               Image.asset(
                 disease['photo'] ?? '',
-                height: 400,
+                height: MediaQuery.of(context).size.height * 0.5,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
