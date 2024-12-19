@@ -27,8 +27,8 @@ class ProfileController extends Controller
         'fullname' => 'nullable|string|max:255',
         'nickname' => 'nullable|string|max:255',
         'age' => 'nullable|integer|min:1|max:120',
-        'email' => 'nullable|string|email|max:255|unique:users,email,' . $request->user()->id,
-        'password' => 'nullable|string|min:8|confirmed',
+        //'email' => 'nullable|string|email|max:255|unique:users,email,' . $request->user()->id,
+        //'password' => 'nullable|string|min:8|confirmed',
         'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
@@ -45,7 +45,7 @@ class ProfileController extends Controller
     }
 
     // Mengubah password jika ada
-    if ($request->filled('current_password') && $request->filled('new_password')) {
+    /*if ($request->filled('current_password') && $request->filled('new_password')) {
         if (!Hash::check($request->input('current_password'), $user->password)) {
             return response()->json(['error' => 'Current password is incorrect'], 422);
         }
@@ -53,13 +53,13 @@ class ProfileController extends Controller
         $user->update([
             'password' => Hash::make($request->input('new_password')),
         ]);
-    }
+    }*/
 
     // Mengupdate data lainnya
     $user->fullname = $request->input('fullname', $user->fullname);
     $user->nickname = $request->input('nickname', $user->nickname);
     $user->age = $request->input('age', $user->age);
-    $user->email = $request->input('email', $user->email);
+    //$user->email = $request->input('email', $user->email);
 
     // Simpan perubahan pada user
     $user->save();
