@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ohmyglow/data/responses/fetchUserData.dart';
 import 'package:ohmyglow/main.dart';
 import 'package:ohmyglow/pages/editprofile.dart';
+import 'package:ohmyglow/pages/helpSupport.dart';
 import 'package:ohmyglow/utils/token_storage.dart';
 import '../config/theme.dart';
 
@@ -112,6 +113,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     leading: Icon(Icons.help),
                     title: Text('Help & Support'),
                     onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HelpSupport()),
+                      );
                       // Handle help and support action
                     },
                   ),
